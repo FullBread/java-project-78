@@ -1,11 +1,21 @@
 package hexlet.code;
+
+
+import hexlet.code.schemas.NumberSchema;
+import hexlet.code.schemas.StringSchema;
+
 public class Validator {
-    private StringSchema schema;
+    private StringSchema string;
+    private NumberSchema number;
 
     public Validator() {
-        this.schema = new StringSchema();
+        this.string = new StringSchema();
+        this.number = new NumberSchema();
     }
     public StringSchema string() {
-        return schema;
+        return string;
+    }
+    public NumberSchema number() {
+        return number;
     }
 }
