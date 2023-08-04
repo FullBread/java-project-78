@@ -2,7 +2,7 @@ plugins {
     id 'application'
     id 'checkstyle'
     id 'jacoco'
-    id 'com.adarshr.test-logger' version '3.2.0'
+    id 'com.adarshr.test-logger' version '3.1.0'
 }
 
 group 'hexlet.code'
@@ -38,7 +38,7 @@ jacocoTestReport {
 }
 
 checkstyle {
-    toolVersion '10.12.1'
+    toolVersion '9.2.1'
 }
 
 application {
