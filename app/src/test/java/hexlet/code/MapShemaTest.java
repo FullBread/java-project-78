@@ -4,7 +4,6 @@ import hexlet.code.schemas.BaseSchema;
 import hexlet.code.schemas.MapSchema;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.validation.Schema;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,5 +87,34 @@ public class MapShemaTest {
         Map<String, String> data = new HashMap<>();
         data.put("key1", null);
         assertFalse(schema.isValid(data));
+    }
+    @Test
+    public void testMapShape() {
+        Validator validator = new Validator();
+        MapSchema mapSchema = validator.map();
+        Map<String, BaseSchema> mapSchemas = new HashMap<>();
+        mapSchemas.put("name", validator.string().required());
+        mapSchemas.put("age", validator.number().positive());
+        mapSchema.shape(mapSchemas);
+
+        Map<String, Object> testFirstMap = new HashMap<>();
+        testFirstMap.put("name", "Kolya");
+        testFirstMap.put("age", 18);
+        assertTrue(mapSchema.isValid(testFirstMap));
+
+        Map<String, Object> testSecondMap = new HashMap<>();
+        testSecondMap.put("name", "Maya");
+        testSecondMap.put("age", null);
+        assertTrue(mapSchema.isValid(testSecondMap));
+
+        Map<String, Object> testThirdMap = new HashMap<>();
+        testThirdMap.put("name", "");
+        testThirdMap.put("age", null);
+        assertFalse(mapSchema.isValid(testThirdMap));
+
+        Map<String, Object> testForthMap = new HashMap<>();
+        testForthMap.put("name", "Valya");
+        testForthMap.put("age", -5);
+        assertFalse(mapSchema.isValid(testForthMap));
     }
 }
