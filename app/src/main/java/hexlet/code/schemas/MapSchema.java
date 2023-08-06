@@ -27,23 +27,19 @@ public class MapSchema extends BaseSchema {
         }
         return true;
     }
-    public MapSchema shape(Map<String, BaseSchema> shapeMap) {
-        Predicate<Object> shapePredicate = value -> {
-            if (!(value instanceof Map)) {
+    public MapSchema shape(Map<String, BaseSchema> schema) {
+        Predicate<Object> shape = s -> shapeIsRequired(schema, (Map<?, ?>) s);
+        validations.add(shape);
+        return this;
+    }
+
+    private boolean shapeIsRequired(Map<String, BaseSchema> schema, Map<?, ?> map) {
+        for (Map.Entry<String, BaseSchema> mapEntry : schema.entrySet()) {
+            String key = mapEntry.getKey();
+            if (!map.containsKey(key) || !mapEntry.getValue().isValid(map.get(key))) {
                 return false;
             }
-            Map<?, ?> mapValue = (Map<?, ?>) value;
-            for (Map.Entry<String, BaseSchema> entry : shapeMap.entrySet()) {
-                String key = entry.getKey();
-                BaseSchema schema = entry.getValue();
-                Object fieldValue = mapValue.get(key);
-                if (!schema.isValid(fieldValue)) {
-                    return false;
-                }
-            }
-            return true;
-        };
-        validations.add(shapePredicate);
-        return this;
+        }
+        return true;
     }
 }
