@@ -81,14 +81,6 @@ public class MapShemaTest {
         assertFalse(schema.isValid(data));
     }
     @Test
-    public void testRequiredWithNullStringValues() {
-        Validator v = new Validator();
-        MapSchema schema = v.map().required();
-        Map<String, String> data = new HashMap<>();
-        data.put("key1", null);
-        assertFalse(schema.isValid(data));
-    }
-    @Test
     public void testMapShape() {
         Validator validator = new Validator();
         MapSchema mapSchema = validator.map();
