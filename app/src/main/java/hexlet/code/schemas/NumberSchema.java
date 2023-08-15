@@ -3,6 +3,10 @@ package hexlet.code.schemas;
 import java.util.function.Predicate;
 
 public final class NumberSchema extends BaseSchema {
+    public NumberSchema() {
+        Predicate<Object> integerPredicate = value -> value instanceof Integer;
+        validations.add(integerPredicate);
+    }
 
     public NumberSchema required() {
         isRequired = true;
@@ -10,18 +14,15 @@ public final class NumberSchema extends BaseSchema {
     }
 
     public NumberSchema positive() {
-        Predicate<Object> positivePredicate = value -> (value instanceof Integer) && ((Integer) value > 0);
+        Predicate<Object> positivePredicate = value -> ((Integer) value > 0);
         validations.add(positivePredicate);
         return this;
     }
 
     public NumberSchema range(int first, int last) {
-        Predicate<Object> rangePredicate;
-        if (first <= last) {
-            rangePredicate = value -> ((Integer) value) >= first && ((Integer) value) <= last;
-        } else {
-            rangePredicate = value -> ((Integer) value) >= last && ((Integer) value) <= first;
-        }
+        int minValue = Math.min(first, last);
+        int maxValue = Math.max(first, last);
+        Predicate<Object> rangePredicate = value -> ((Integer) value) >= minValue && ((Integer) value) <= maxValue;
         validations.add(rangePredicate);
         return this;
     }

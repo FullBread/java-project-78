@@ -4,14 +4,16 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public final class MapSchema extends BaseSchema {
+    public MapSchema() {
+        Predicate<Object> mapPredicate = value -> value instanceof Map;
+        validations.add(mapPredicate);
+    }
     public MapSchema required() {
         isRequired = true;
-        Predicate<Object> requiredPredicate = value -> value instanceof Map;
-        validations.add(requiredPredicate);
         return this;
     }
-    public MapSchema sizeof(int number) {
-        Predicate<Object> sizeofPredicate = value -> ((Map<?, ?>) value).size() == number;
+    public MapSchema sizeof(int size) {
+        Predicate<Object> sizeofPredicate = value -> ((Map<?, ?>) value).size() == size;
         validations.add(sizeofPredicate);
         return this;
     }

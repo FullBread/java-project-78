@@ -3,6 +3,10 @@ package hexlet.code.schemas;
 import java.util.function.Predicate;
 
 public final class StringSchema extends BaseSchema {
+    public StringSchema() {
+        Predicate<Object> stringPredicate = value -> value instanceof String;
+        validations.add(stringPredicate);
+    }
     public StringSchema required() {
         isRequired = true;
         Predicate<Object> requiredPredicate = value -> !((String) value).isEmpty();
